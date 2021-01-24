@@ -1,0 +1,43 @@
+{
+  "name": "electron-quick-start",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "main.js",
+  "build": {
+    "appId": "com.tovinping.app",
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "zip"
+      ]
+    }
+  },
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win --x64",
+    "package": "electron-packager ./ myApp --out ./OutApp --app-version 1.7.9 --overwrite --icon=./app/img/icon/icon.ico"
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^11.2.0",
+    "electron-builder": "^22.9.1",
+    "electron-packager": "^15.2.0",
+    "react-dom": "^17.0.1"
+  },
+  "dependencies": {}
+}
