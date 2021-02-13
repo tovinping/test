@@ -1,0 +1,23 @@
+{
+  "type": "mysql",
+  "host": "tovinping.cn",
+  "port": 3306,
+  "username": "remote",
+  "password": "tang1233",
+  "database": "test",
+  "synchronize": true,
+  "entities": [
+    "src/entity/*.js"
+  ],
+  "subscribers": [
+    "src/subscriber/*.js"
+  ],
+  "migrations": [
+    "src/migration/*.js"
+  ],
+  "cli": {
+    "entitiesDir": "src/entity",
+    "migrationsDir": "src/migration",
+    "subscribersDir": "src/subscriber"
+  }
+}
