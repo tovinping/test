@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>断点上传</title>
+</head>
+
+<body>
+  <input id="file" type="file">
+  <p></p>
+  <button onclick="start()">开始上传</button>
+  <button onclick="stop()">停止上传</button>
+  <span id="percent">进度: 0%</span>
+  <script>
+    let baseUrl = 'http://localhost:4001/upload'
+    const fileInput = document.getElementById('file')
+    const percentEl = document.getElementById('percent')
+    fileInput.onchange = function fileChange() {
+      const file = this.files[0]
+      const uploaded = file && getUploadedSize(file)
+      uploaded && setPercent(file.size, uploaded)
+    }
+    function md5filename(file) {
+      return file.name
+    }
+    function start() {
+      baseUrl = 'http://localhost:4001/upload'
+      const file = fileInput.files[0]
+      if (!file) return;
+      const initSize = getUploadedSize(file) || '0'
+      uploadByFileLength(file, parseInt(initSize))
+    }
+    function stop() {
+      baseUrl = 'http://localhost:1111/abcd'
+    }
+    function getUploadedSize(file) {
+      return localStorage.getItem('upload' + file.name)
+    }
+    function setUploadedSize(file, size) {
+      return localStorage.setItem('upload' + file.name, size)
+    }
+    function setPercent(fileSize, loadedSize) {
+      const percent = parseInt(loadedSize / fileSize * 100)
+      percentEl.innerText = `进度: ${percent > 100 ? 100 : percent}%`
+    }
+    async function uploadByFileLength(file, startLength = 0) {
+      const fileSize = file.size
+      const filename = md5filename(file)
+      const chunkLength = 1024 * 1024 * 1
+      console.log('upload by', startLength)
+      while (startLength < fileSize) {
+        const nextLength = startLength + chunkLength
+        const result = await uploadFile(file.slice(startLength, nextLength), fileSize, filename, current)
+        if (result.result === 1) {
+          console.error('上传失败')
+          return
+        } else {
+          startLength = nextLength + 1;
+          setUploadedSize(file, startLength)
+          setPercent(fileSize, nextLength)
+        }
+      }
+      console.log('upload end')
+      setUploadedSize(file, 0)
+    }
+    async function uploadFile(data, total, filename, current) {
+      const body = new FormData()
+      body.append('file', data)
+      body.append('filename', filename)
+      body.append('total', total)
+      body.append('current', current)
+      const result = await fetch(baseUrl, {
+        method: 'POST',
+        body
+      })
+      await sleep(200)
+      try {
+        return await result.json()
+      } catch (error) {
+        return { result: 1 }
+      }
+    }
+    async function getUploadedLengthFromServer(md5Name) {
+      return fetch(`http://localhost:4001/uploadLength?filename=md5Name`).then(res => res.json())
+    }
+    function sleep(timer) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(true)
+        }, timer);
+      })
+    }
+  </script>
+</body>
+
+</html>
