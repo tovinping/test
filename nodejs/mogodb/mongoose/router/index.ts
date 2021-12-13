@@ -1,6 +1,5 @@
-import * as user from '../service/user'
-
-export default function (router: any) {
-  router.get('/users', user.getUsers)
-  router.post('/user', user.saveUser)
-}
+import Router from 'koa-router'
+import userRouter from './user'
+const router = new Router();
+router.use('/user', userRouter.routes());
+export default router;

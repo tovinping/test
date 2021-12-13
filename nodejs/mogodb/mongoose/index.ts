@@ -1,14 +1,14 @@
 import Koa from "koa";
 import mongoose from "mongoose";
-import Router from "koa-router";
+import koaStatic from "koa-static";
+import koaBody from "koa-body";
 import appRouter from "./router";
 import "./db";
 
 const app = new Koa();
-const router = new Router();
-appRouter(router);
-app.use(router.routes());
-
+app.use(koaStatic("./static"));
+app.use(koaBody({ patchKoa: false }));
+app.use(appRouter.routes());
 const db = mongoose.connection;
 db.on("error", () => {
   console.error("db open error");

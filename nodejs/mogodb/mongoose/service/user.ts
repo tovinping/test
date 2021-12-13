@@ -1,14 +1,12 @@
 import User from "../db/user";
 
-export async function getUsers(ctx: any) {
-  try {
-    const result = await User.where({name: 'a'});
-    ctx.body = {data: result}
-  } catch (error) {
-    ctx.body = {data: -1}
-  }
+export function getUser(account: string) {
+  return User.where({account})
 }
-export function saveUser() {
+export function getUsers() {
+  return User.find();
+}
+export function addUser() {
   const user = new User({
     name: "a",
     account: "a",
@@ -18,4 +16,7 @@ export function saveUser() {
   user.save((err: any, user: any) => {
     console.log("saveUser err =", err, "user=", user);
   });
+}
+export function updateUser() {
+  return null
 }

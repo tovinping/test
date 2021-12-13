@@ -12,8 +12,11 @@
   "license": "ISC",
   "dependencies": {
     "@types/koa": "^2.13.4",
+    "@types/koa-static": "^4.0.2",
     "koa": "^2.13.4",
+    "koa-body": "^4.2.0",
     "koa-router": "^10.1.1",
+    "koa-static": "^5.0.0",
     "mongoose": "^6.1.0"
   },
   "devDependencies": {
