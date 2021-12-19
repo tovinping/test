@@ -3,4 +3,5 @@ out/
 dist/
 build/
 upload/
+password.json
 *.log

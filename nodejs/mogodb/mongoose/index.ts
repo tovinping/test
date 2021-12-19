@@ -7,7 +7,7 @@ import "./db";
 
 const app = new Koa();
 app.use(koaStatic("./static"));
-app.use(koaBody({ patchKoa: false }));
+app.use(koaBody());
 app.use(appRouter.routes());
 const db = mongoose.connection;
 db.on("error", () => {
